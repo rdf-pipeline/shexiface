@@ -1,0 +1,73 @@
+PREFIX fhir: <http://hl7.org/fhir/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX map: <http://shexspec.github.io/extensions/Map/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+BASE <http://hl7.org/fhir/shapes/>
+
+start = <DiagnosticOrder>
+
+PREFIX : <http://hl7.org/fhir/DiagnosticOrder.>
+<DiagnosticOrder> {
+  a                                   [fhir:DiagnosticOrder]?,
+  :subject           { fhir:reference @<Patient> }?,
+  :orderer           { fhir:reference @<Practitioner> }?,
+  :identifier                         @<Identifier>*,
+  :specimen          { fhir:reference @<Specimen> }?,
+  :item {
+    :item.code                        @<CodeableConcept>,
+  }*
+}
+
+PREFIX : <http://hl7.org/fhir/DiagnosticReport.>
+<DiagnosticReport> {
+  a                                   [fhir:DiagnosticReport]?,
+  :identifier                         @<Identifier>?,
+  :status            { fhir:value     ["final"] },
+  :issued            { fhir:value     LITERAL },
+  :request           { fhir:reference @<DiagnosticOrder> }?,
+  :result            { fhir:reference @<Observation> },
+}
+
+PREFIX : <http://hl7.org/fhir/Observation.>
+<Observation> {
+  a                                   [fhir:Observation]?,
+  :code                               @<CodeableConcept>?
+}
+
+PREFIX : <http://hl7.org/fhir/Specimen.>
+<Specimen> {
+  :status            { fhir:value     ["available"] },
+  :subject           { fhir:reference @<Patient> }?,
+  :type                               @<CodeableConcept>,
+  :receivedTime      { fhir:value     LITERAL },
+  :container {
+    :container.type                   @<CodeableConcept>,
+  },
+}
+
+PREFIX : <http://hl7.org/fhir/Identifier.>
+<Identifier> {
+  a                                   [fhir:Identifier],
+  :use               { fhir:value     ["usual"] },
+  :system            { fhir:value     LITERAL },
+  :value             { fhir:value     LITERAL }
+}
+
+PREFIX : <http://hl7.org/fhir/CodeableConcept.>
+<CodeableConcept> {
+  a                                   [fhir:CodeableConcept]?,
+  :coding                             @<Coding>*
+}
+
+PREFIX : <http://hl7.org/fhir/Coding.>
+<Coding> {
+  a                                   [fhir:Coding]?,
+  :system            { fhir:value     LITERAL },
+  :code              { fhir:value     LITERAL },
+  :display           { fhir:value     LITERAL }?
+}
+
+<Patient> {}
+
+<Practitioner> {}
+
