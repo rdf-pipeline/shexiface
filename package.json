@@ -10,11 +10,16 @@
   "dependencies": {
     "bluebird": "^3.3.1",
     "jsonld": "^0.4.5",
+    "noflo": "^0.5.22",
     "rdf-ext": "^0.3.0",
     "rdfstore": "^0.9.7",
-    "shex": "^0.5.8"
+    "shex": "^0.5.8",
+    "underscore": "^1.8.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
